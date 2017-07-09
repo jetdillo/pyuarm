@@ -42,13 +42,11 @@ SET_BUZZER              = "M210 F{} T{}"
 SET_POLAR               = "G201 S{} R{} H{} F{}"
 ATTACH_SERVO            = "M201 N{}"
 DETACH_SERVO            = "M202 N{}"
-# SET_REPORT_BUTTON       = "M213 V{}" #1 Open #0 Close
 # Get Command
 GET_SIMULATION          = "M222 X{} Y{} Z{} P0"
 GET_FIRMWARE_VERSION    = "P203"
 GET_HARDWARE_VERSION    = "P202"
 GET_COOR                = "P220"
-GET_SERVO_STATUS        = "M203"
 GET_SERVO_ANGLE         = "P200"
 GET_IS_MOVE             = "M200"
 GET_TIP_SENSOR          = "P233"
@@ -62,7 +60,6 @@ GET_DIGITAL             = "P240 N{}"
 # Report Command
 SET_REPORT_POSITION     = "M120 V{}"
 REPORT_POSITION_PREFIX  = "@3"
-# REPORT_BUTTON_PRESSED   = "@4"
-# BUTTON_MENU             = "B0"
-# BUTTON_PLAY             = "B1"
 
+#Set Protcol
+SET_PROTOCOL = "BAR"

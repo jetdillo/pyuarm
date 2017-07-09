@@ -1,21 +1,29 @@
 from serial.tools import list_ports
+import pdb
+#UARM_HWID_KEYWORD = "USB VID:PID=0403:6001"
+UARM_HWIDS = ['0403:6001','2341:0042']
 
-UARM_HWID_KEYWORD = "USB VID:PID=0403:6001"
-
+UARM_MODEL=""
 
 def uarm_ports():
-    uarm_ports = []
+#    pdb.set_trace()
+    uarm_ports ={}
+
     for i in list_ports.comports():
-        if i.hwid[0:len(UARM_HWID_KEYWORD)] == UARM_HWID_KEYWORD:
-            uarm_ports.append(i[0])
+    #    if i.hwid[0:len(UARM_HWID_KEYWORD)] == UARM_HWID_KEYWORD:
+        if i.hwid[12:21] in UARM_HWIDS:
+            uarm_ports[i[0]] = i.hwid[12:21]
+            print i.hwid[12:21] 
+            print i.hwid
+            
     return uarm_ports
 
 
 def check_port_plug_in(serial_id):
     ports = list_ports.comports()
     for p in ports:
-        if p.serial_number == serial_id:
-            return True
+       if p.serial_number == serial_id:
+           return True
     return False
 
 
@@ -25,7 +33,7 @@ def get_uarm_port_cli():
     if len(ports) > 1:
         i = 1
         for port in ports:
-            print("[{}] - {}".format(i, port))
+            print ("[{}] - {}".format(i, port))
             i += 1
         port_index = input("Please Choose the uArm Port: ")
         uarm_port = ports[int(port_index) - 1]
@@ -54,9 +62,8 @@ def main():
     """
     ports = uarm_ports()
     for p in ports:
-        print(p)
-    print("{0} ports found".format(len(ports)))
-
+        print (p)
+    print ("{0} ports found".format(len(ports)))
 
 if __name__ == '__main__':
     main()
