@@ -19,7 +19,7 @@ else:
 
 #set default uarm type we're going to use here
 
-uarm_ids = {"metal":'0403:6001',"swift":'2341:0042'}
+uarm_ids = {"0403:6001":"metal","2341:0042":"swift"}
 def get_uarm(logger=None):
     """
     ===============================
@@ -41,7 +41,7 @@ def get_uarm(logger=None):
     ports = uarm_ports()
     #print ports
     if len(ports) > 0:
-        return UArm(port_name=ports.keys()[0],logger=logger)
+        return UArm(port_name=ports.keys()[0],hwid=ports.values()[0],logger=logger)
     else:
         printf("There is no uArm port available",ERROR)
         return None
@@ -52,7 +52,7 @@ class UArm(object):
         self.close()
         printf("Deleted...")
 
-    def __init__(self, port_name=None, logger=None, debug=False, block=True, timeout=0.1):
+    def __init__(self, port_name=None, hwid=None,logger=None, debug=False, block=True, timeout=0.1):
         """
         :param port_name: UArm Serial Port name, if no port provide, will try first port we detect
         :param hwid Hardware ID of arm so we can select which protocol to use
@@ -69,8 +69,6 @@ class UArm(object):
 
         #pdb.set_trace()
 
-        swift_msg="#254 P2203\n"
-        metal_msg="#255 P203\n"
         self.proto_version="none"
 
         if port_name is None:
@@ -80,35 +78,17 @@ class UArm(object):
            else:
               raise UArmConnectException(0, "No uArm ports is found.")
 
-        #For multi-uarm support figure out which protocol library we're supposed to import
-
-        ser=serial.Serial(port_name,115200)
-        ser.flushInput()
-        ser.write(swift_msg)
-        time.sleep(2)
-        results=ser.read(ser.in_waiting)
-        if "OK" in results:
-           self.proto_version="swift"
-        else: 
-           ser.flushInput()
-           ser.write(metal_msg)
-           time.sleep(2)
-           results=ser.read(ser.in_waiting)
-           if "OK" in results:
-              self.proto_version="metal"
-           else:
-              self.proto_version="none"
-        ser.close()
-         
-        if self.proto_version == "swift":
-           self.set_proto("swift")
-        if self.proto_version == "metal":  
-           self.set_proto("metal")
-        
         if logger is None:
            util.init_logger(util.get_default_logger(debug))
         else:
            util.init_logger(logger)
+        
+        self.proto_version=uarm_ids[hwid]
+ 
+        if self.proto_version == "swift":
+           self.set_proto("swift")
+        if self.proto_version == "metal":  
+           self.set_proto("metal")
  
         if self.proto_version == "none": 
            printf("Failed to identify a supported arm...exiting") 
@@ -780,6 +760,7 @@ class UArm(object):
 
     def set_proto(self,proto):
        global protocol
+       printf(proto)
        if proto == "metal":
           import protocol
        if proto == "swift":
