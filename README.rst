@@ -1,25 +1,29 @@
 ===============================
-Develop branch, Experiment
+Dev branch forked from the uArm-Developer/pyuarm tree
+===============================
+===============================
+pyuarm --- Drivers for the 4-DOF robot arms from ufactory.cc
 ===============================
 
-===============================
-pyuarm
-===============================
-
-## This Branch is currently on Developing.
+## Branched off pyuarm-2.4.x
 
 Overview
 ========
 
-This module encapsulates the operations for uArm. It provides basic Movement on Python.
-Also provides Firmware_helper and Calibration. The module named "pyuarm" makes the API more pythonic.
+Latest features:
+- Added firmware detection to get_uarm() to allow this code to be used to talk to both uArm Metal and uArm Swift devices. See protocol.py and swift_protocol.py and uarm.py for most of the details about this. 
+- method variables added to allow for continued expansion of the package to other future USB VIDs and uArm firmware. 
+
+- I've otherwise tried to mess with the code as little as possible since the ROS uarm package uses this as its driver interface to the uArm device. 
+- Tested successfully with a uArm Swift and uArm Metal running Ubuntu 14.04 using ROS Indigo. 
+
+Feedback/testing/PRs, etc. requested, Advice and assistance gladly given, but safety requires avoiding unnecessary conversation. 
 
 Other pages (online)
 
 - `project page on Github`_
 - `Download Page`_ with releases
 - This page, when viewed online is at https://pyuarm.readthedocs.io.
-
 
 Features
 ========

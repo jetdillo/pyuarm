@@ -1,4 +1,13 @@
+##[2.4.0.12-JD] - 2017-07-09
+### Update -Steve " 'dillo" Okay
+
+1. Split out protocol.py into protocol.py and swift_protocol.py
+2. Added detect_arm.py under tools/
+3. Added code to detect multiple firmware versions and status codes for uArm Metal and Swift in uarm.py
+4. Workaround for bug where pyuarm.connect() deadlocks because the boot-up tokens ("@1", "@5", etc.) are flushed from the serial port when get_uarm() connects to the arm. 
+
 ##[2.4.0.12] - 2017-03-11
+
 ### Update -Alex Tan
 
 - Firmware 2.2.1
